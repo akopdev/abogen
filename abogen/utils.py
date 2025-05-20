@@ -108,7 +108,7 @@ default_encoding = sys.getfilesystemencoding()
 def create_process(cmd, stdin=None, text=True):
     import logging
     logger = logging.getLogger(__name__)
-    
+
     # Configure root logger to output to console if not already configured
     root = logging.getLogger()
     if not root.handlers:
@@ -117,7 +117,7 @@ def create_process(cmd, stdin=None, text=True):
         handler.setFormatter(formatter)
         root.addHandler(handler)
         root.setLevel(logging.INFO)
-    
+
     # Determine shell usage: use shell only for string commands
     use_shell = isinstance(cmd, str)
     kwargs = {
@@ -151,9 +151,9 @@ def create_process(cmd, stdin=None, text=True):
 
     # Print the command being executed
     print(f"Executing: {cmd if isinstance(cmd, str) else ' '.join(cmd)}")
-    
+
     proc = subprocess.Popen(cmd, **kwargs)
-    
+
     # Stream output to console in real-time
     if proc.stdout:
         def _stream_output(stream):
@@ -179,7 +179,7 @@ def create_process(cmd, stdin=None, text=True):
                     except Exception:
                         pass
             stream.close()
-        
+
         # Start a daemon thread to handle output streaming
         Thread(target=_stream_output, args=(proc.stdout,), daemon=True).start()
 
